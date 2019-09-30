@@ -1,4 +1,6 @@
 import React from 'react';
+import TodoList from './components/TodoComponents/TodoList'
+import TodoForm from './components/TodoComponents/TodoForm';
 
 
 const list = [
@@ -15,7 +17,7 @@ const list = [
   }
 ]
 
-const styles = {}
+
 class App extends React.Component { //1.declare class and extend React.Component
   // you will need a place to store your state in this component.
   // design `App` to be the parent component of your application.
@@ -25,17 +27,49 @@ class App extends React.Component { //1.declare class and extend React.Component
   constructor(){
     super();
     this.state={
-      list,
+      todoList: list,
       newTask:"",
       id:""
     };
   }
   
-  //insert a value, add value to object, concat object to array
+ 
+  toggleItem = id => {
+    console.log(`toggle`,id);
+    // Update groceries on our state object
+    // use this.setState
+    // loop through the arr
+    // find which element we clicked update the "pruchased" property
+    this.setState({
+      todoList: this.state.todoList.map(item => {
+        if (item.id === id) {
+          return {
+            ...item,
+            // Same as:
+            // name: item.name,
+            // id: item.id,
+            // purchased: item.purchased,
+            completed: !item.completed
+          };
+        } else {
+          return item;
+        }
+      })
+    });
+  };
+
+  completedTask = () => {
+    this.setState({
+      todoList: this.state.todoList.filter(item => !item.completed)
+    });
+  };
 
  onAddItem =event=>{
   console.log(`onAddItem`,this.state.newTask)
-  const newObj={task:this.state.newTask, id: 10*Math.random(), completed: false}
+  const newObj={
+    task:this.state.newTask,
+    id: 10*Math.random(),
+    completed: false}
   console.log(`new object`, newObj)
   this.setState({list: this.state.list.concat(newObj)})
    }
@@ -53,15 +87,24 @@ class App extends React.Component { //1.declare class and extend React.Component
     })
   }
 
+  addTask = taskName => {
+    const newTask = {
+      task: taskName,
+      id: Math.random()*10,
+      completed: false
+    };
+    this.setState({
+      todoList: [...this.state.todoList, newTask]
+    });
+  };
+
   //need to get object, and change completed
   onCompleted = event=>{
     console.log(`oncompleted`,event.target);
     
   }
 
-  toggleItem = id => {
-    console.log(`id`, id)
-  }
+  
 
   onResetList = ()=>{
     this.setState({list})
@@ -87,13 +130,17 @@ class App extends React.Component { //1.declare class and extend React.Component
 
   //step 3, render UI and return JSX
   render() {
-    return( <div>
+    return( 
+    <div>
       <ul>
-        {this.state.list.map(e=>(
-          <li key={e.id} onMouseEnter={this.toggleItem}>{e.task}</li>
-      ))}
+     
+      <TodoForm addTask={this.addTask}/>
+      <TodoList
+      todoList={this.state.todoList}
+      toggleItem={this.toggleItem}/>
+
       </ul>
-      <input type='text' placeholder='to do' onChange={this.onChangeValue}/> 
+       
       <button type='button' onClick={this.onAddItem}>Add</button>
       <button type='button' onClick={this.onClearList}>Clear Completed</button>
       <button type='button' onClick={this.onResetList}>Reset</button>
