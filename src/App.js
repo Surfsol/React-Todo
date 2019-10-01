@@ -58,11 +58,17 @@ class App extends React.Component { //1.declare class and extend React.Component
     });
   };
 
+//creates new array, filters out 
   completedTask = () => {
     this.setState({
       todoList: this.state.todoList.filter(item => !item.completed)
     });
   };
+
+  onResetList = ()=>{
+    this.setState({
+      todoList: []})
+  }
 
  onAddItem =event=>{
   console.log(`onAddItem`,this.state.newTask)
@@ -75,6 +81,7 @@ class App extends React.Component { //1.declare class and extend React.Component
    }
  
   //onClearList resets list to an empty array
+  /*
   onClearList = ()=>{
     this.state.list.map((e, index)=>{
       console.log(`clear`, e)
@@ -86,7 +93,8 @@ class App extends React.Component { //1.declare class and extend React.Component
       }
     })
   }
-
+*/
+  //create brand new array
   addTask = taskName => {
     const newTask = {
       task: taskName,
@@ -106,9 +114,7 @@ class App extends React.Component { //1.declare class and extend React.Component
 
   
 
-  onResetList = ()=>{
-    this.setState({list})
-  }
+
 
  
 
@@ -120,13 +126,7 @@ class App extends React.Component { //1.declare class and extend React.Component
     this.setState({id: Math.random()})
   };
 
-/*
-  handleInputChange1 = event => {
-    console.log(event.target.value);
-    //save on state, message
-    this.setState(event.target.value), ()=> console.log(this.state.count)  //add second function
-  }
-  */
+
 
   //step 3, render UI and return JSX
   render() {
@@ -137,14 +137,16 @@ class App extends React.Component { //1.declare class and extend React.Component
       <TodoForm addTask={this.addTask}/>
       <TodoList
       todoList={this.state.todoList}
-      toggleItem={this.toggleItem}/>
+      toggleItem={this.toggleItem}
+      completedTask={this.completedTask}
+      />
 
       </ul>
        
-      <button type='button' onClick={this.onAddItem}>Add</button>
-      <button type='button' onClick={this.onClearList}>Clear Completed</button>
+      
+     
       <button type='button' onClick={this.onResetList}>Reset</button>
-      <button type='button' onClick={()=>this.onCompleted}></button>
+      
     </div>
     )
   }
