@@ -12,7 +12,7 @@ class TodoForm extends React.Component {
 
   handleChanges = e => {
     this.setState({
-      [e.target.name]: e.target.value  //e.target.name is same as task
+      [e.target.name]: e.target.value  //e.target.name is same as task, line 9
     });
   };
 
@@ -21,7 +21,7 @@ class TodoForm extends React.Component {
     e.preventDefault();
     this.props.addTask(this.state.task);
   };
-
+//create a form to submit a new task
   render() {
     return (
       <form onSubmit={this.submitTask}>

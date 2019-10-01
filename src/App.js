@@ -33,7 +33,7 @@ class App extends React.Component { //1.declare class and extend React.Component
     };
   }
   
- 
+ //passed to TodoList.js, then to Todo.js
   toggleItem = id => {
     console.log(`toggle`,id);
     // Update groceries on our state object
@@ -59,27 +59,20 @@ class App extends React.Component { //1.declare class and extend React.Component
   };
 
 //creates new array, filters out 
+// passed as props to TodoList
   completedTask = () => {
     this.setState({
       todoList: this.state.todoList.filter(item => !item.completed)
     });
   };
 
+  //used at bottom of screen
   onResetList = ()=>{
     this.setState({
       todoList: []})
   }
 
- onAddItem =event=>{
-  console.log(`onAddItem`,this.state.newTask)
-  const newObj={
-    task:this.state.newTask,
-    id: 10*Math.random(),
-    completed: false}
-  console.log(`new object`, newObj)
-  this.setState({list: this.state.list.concat(newObj)})
-   }
- 
+
   //onClearList resets list to an empty array
   /*
   onClearList = ()=>{
@@ -95,6 +88,10 @@ class App extends React.Component { //1.declare class and extend React.Component
   }
 */
   //create brand new array
+  // is on TodoForm
+  // first creates object containing task, id, completed
+  //brings down todoList and adds new object, newTask
+  // resets state, which will re-render 
   addTask = taskName => {
     const newTask = {
       task: taskName,
@@ -106,26 +103,6 @@ class App extends React.Component { //1.declare class and extend React.Component
     });
   };
 
-  //need to get object, and change completed
-  onCompleted = event=>{
-    console.log(`oncompleted`,event.target);
-    
-  }
-
-  
-
-
-
- 
-
-  //change newTask, when enter text in field
-  onChangeValue = event => {
-    console.log(event.target.value);
-    //save on state, message
-    this.setState({newTask: event.target.value});
-    this.setState({id: Math.random()})
-  };
-
 
 
   //step 3, render UI and return JSX
@@ -133,7 +110,6 @@ class App extends React.Component { //1.declare class and extend React.Component
     return( 
     <div>
       <ul>
-     
       <TodoForm addTask={this.addTask}/>
       <TodoList
       todoList={this.state.todoList}
